@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin </title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/feather/feather.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/typicons/typicons.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/simple-line-icons/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'adminportal/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+    <link rel="stylesheet" href="{% static 'adminportal/js/select.dataTables.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'adminportal/css/vertical-layout-light/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static 'adminportal/images/favicon.png' %}" />
+</head>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth px-0">
+            <div class="row w-100 mx-0">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                        <div class="brand-logo">
+                            <img src="{% static 'adminportal/images/logo.svg' %}" alt="logo">
+                        </div>
+                        <h4>Hello..! </h4>
+                        <h5>
+                            <div style="color:rgb(255, 0, 0);" class="alert alert-danger mdi mdi-alert" role="alert">
+                                {% if not user.is_staff %} User -"{{ request.user }}" is not staff permitted.!! {% endif %}
+                            </div>
+                        </h5>
+                        <div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                {% if form.errors %}
+                                <div style="color:red;" class="alert  alert-error alert-dismissible" role="alert">
+                                    Please Enter Valid Username/Password
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <form class="pt-3" method="POST" action="{% url 'user_urls:login_1' %}">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <input type="username" name="username" class="form-control form-control-lg" id="exampleInputUsername" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword" placeholder="Password">
+                            </div>
+
+
+                            <div class="mt-3">
+                                <input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" name="Log In" value="Log In">
+                                <a style="padding: 1rem 1.5rem; line-height: 1.5; margin-left: 118px;" class=" fa fa-home btn btn-outline-primary float-right" href="{% url 'user_urls:index' %}" type="button"> Home Page</a>
+
+
+                            </div>
+                            <div class="my-2 d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <label class="form-check-label text-muted">
+                                    </label>
+                                </div>
+                                <!-- <a href="#" class="auth-link text-black">Forgot password?</a> -->
+                            </div>
+                            <!-- <div class="mb-2">
+                            <button type="button" class="btn btn-block btn-facebook auth-form-btn">
+                                    <i class="ti-facebook me-2"></i>Connect using facebook
+                            </button>
+                        </div> -->
+                            <div class="text-center mt-4 fw-light">
+                                Don't have an account? <a href="{% url 'user_urls:registration' %}" class="text-primary">Create</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+</div>
+<!-- page-body-wrapper ends -->
+
+<script src="{% static 'adminportal/vendors/js/vendor.bundle.base.js' %}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="{% static 'adminportal/vendors/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'adminportal/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'adminportal/vendors/progressbar.js/progressbar.min.js' %}"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="{% static 'adminportal/js/off-canvas.js' %}"></script>
+<script src="{% static 'adminportal/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'adminportal/js/template.js' %}"></script>
+<script src="{% static 'adminportal/js/settings.js' %}"></script>
+<script src="{% static 'adminportal/js/todolist.js' %}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{% static 'adminportal/js/jquery.cookie.js' %}" type="text/javascript"></script>
+<script src="{% static 'adminportal/js/dashboard.js' %}"></script>
+<script src="{% static 'adminportal/js/Chart.roundedBarCharts.js' %}"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+{% extends 'adminportal/base.html' %} {% load static %} {% block head %}
+<title>Admin</title>
+{% endblock %} {% block body_block %}
+
+<!--================Single Product Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <h3>User Detail Page</h3>
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <img class="img-fluid" src="{{ object.profile_pic.url }}" style="width:263px;height:280px;" alt="">
+            </div>
+            <div class="col-lg-6">
+                <div class="s_product_text">
+                    <ul class="list">
+                        <li>
+                            <h3>{{ object.username }}</h3>
+                        </li>
+                        <li>
+                            <h3>{{ object.email }}</h3>
+                        </li>
+                        <li>Phone Number : {{ object.phone_number }}</li>
+                    </ul>
+                    <!--<div class="product_count">
+							<label for="qty">Quantity:</label>
+							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+							 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+						</div> 
+                        <div class="card_area d-flex align-items-center">
+                            <a><button class="btn btn-primary" id="add_to_cart" data-action="add" onclick=" updateuserorder('{{ object.id }}', 'add')">Add To Cart </button></a>
+                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a> 
+                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                        </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+
+
+{% endblock %} {% block script %}
+<script>
+    function updateuserorder(item_id, action) {
+        // var updateBtns = document.getElementsByClassName('update-cart');
+
+        // for (var i = 0; i < updateBtns.length; i++) {
+
+        // 	updateBtns[i].addEventListener('click', function(){
+        // let button = $(element);
+        // let item_id = button.data("id");
+        // var action = this.dataset.action;
+        console.log('item :', item_id)
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            url: "",
+            data: {
+                'action': "add",
+                "item": item_id
+            },
+            success: function(data) {
+                alert("Successfully added");
+            },
+            error: function(error) {
+                alert("Error!...Something went wrong");
+            }
+
+        })
+
+        { % endif %
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    }
+</script>
+{% endblock %}

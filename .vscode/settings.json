@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./myenv/Lib/site-packages/celery/bin"
+    ]
+}

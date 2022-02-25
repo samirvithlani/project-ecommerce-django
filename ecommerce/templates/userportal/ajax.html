@@ -1,0 +1,53 @@
+<script>
+    function AddToCart(item_id) {
+        console.log('item_id :', item_id)
+
+        {% if request.user.is_authenticated %}
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken,
+            },
+            url: "/add_to_cart/",
+            data: {
+                'item_id': item_id,
+                'action': 'add'
+            },
+            success: function(data) {
+                Swal.fire(
+                    'YaY!',
+                    'Your item is added to the cart!',
+                    'success'
+                )
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Oops!',
+                    'Something went wrong',
+                    'error'
+                )
+            }
+
+        }) {% else %}
+        window.location.replace("{% url 'user_urls:login' %}"); 
+            {% endif %}
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+</script>

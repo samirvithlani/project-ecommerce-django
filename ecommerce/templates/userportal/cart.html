@@ -1,0 +1,184 @@
+{% extends 'userportal/base.html' %} {% load static %} {% block head %}
+<title>Admin</title>
+{% endblock %} {% block body_block %}
+<!-- partial -->
+
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'user_urls:index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="{% url 'product_urls:category' %}">Category</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row" style="color:black; margin-left: 50px; margin-right: 50px; font-size: 16px;">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table class="table" style="border: 200px;" id="cart">
+                                <thead>
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product Name</th>
+                                        <th>Product Price</th>
+                                        <th>Product Add/Remove</th>
+                                        <th>Product Total</th>
+                                        <th>Remove Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if items %} {% for prod in items %}
+                                    <tr id="{{ prod.id }}">
+                                        <td><img src="{{ prod.product.image.url }}" style="width:100px;height:100px;" alt=""></td>
+                                        <td>{{prod.product.name}}</td>
+                                        <td>{{prod.product.price}}</td>
+                                        <td>
+                                            <div class="pl-md-0 pl-2">
+                                                <span id="mybtn" onclick="updateuserorder('{{ prod.product.id }}','add')" class="fa fa-plus-square text-secondary"></span>
+                                                <!-- <span class="px-md-3 px-1" id="item_update{{ prod.product.id }}">{{ prod.quantity }}</span> -->
+                                                <input id="item_update{{ prod.product.id }}" type="number" value="{{ prod.quantity }}" style="width:39px;height:30px;border: hidden;">
+                                                <span id="mybtn" onclick="updateuserorder('{{ prod.product.id }}','remove')" class="fa fa-minus-square text-secondary"></span>
+
+                                            </div>
+
+                                            <!-- <i onclick="updateuserorder('{{ prod.product.id }}','add')" class="fa fa-plus-square text-secondary"></i>
+                                            <input id="item_update{{ prod.product.id }}" type="number" value="{{ prod.quantity }}" title="Quantity:" style="width:30px;height:30px;border: hidden;">
+                                            <i onclick="updateuserorder('{{ prod.product.id }}','remove')" class="fa fa-minus-square text-secondary"></i> -->
+                                        </td>
+                                        <td id="cart_total{{ prod.product.id }}" style="color:black;font-size: 16px;">{{ prod.get_cart_total }}</td>
+                                        <td>
+                                            <a type="button" class="btn btn-danger" style="padding: 6px; color: white;">
+                                                <span onclick="updateuserorder('{{ prod.product.id }}','delete')" class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %} {% endif %}
+                                    <tr>
+                                        <td>
+                                            <b>Sub-Total</b> </td>
+                                        <td>
+                                            <b>Tax(18%)</b> </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td id="get_cart_total">
+                                            {{ cart_total.get_total }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+                                            <div class="checkout_btn_inner d-flex align-items-center">
+                                                <a class="gray_btn" href="{% url 'user_urls:index' %}">Continue Shopping</a>
+                                                <a class="primary-btn" href="{% url 'user_urls:checkout' %}">Proceed to checkout</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+
+    <!-- partial -->
+</div>
+<!-- main-panel ends -->
+{% endblock %} {% block scripts %}
+<script>
+    function updateuserorder(item_id, action) {
+
+
+        console.log('item:', item_id);
+        console.log('action', action)
+
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            url: "{% url 'user_urls:add_to_cart' %}",
+            data: {
+                'action': action,
+                'item_id': item_id
+            },
+            success: function(data) {
+                // console.log(data.item_id)
+                // console.log(data.product_total)
+                // console.log(data.get_cart_total)
+
+                var product_total = document.getElementById('cart_total' + item_id);
+                product_total.innerHTML = data.product_total
+
+                var whole_total = document.getElementById('get_cart_total')
+                whole_total.innerHTML = data.get_cart_total
+
+                var result = document.getElementById('item_update' + item_id);
+
+                if (action == "add") {
+                    if (!isNaN(result.value))
+                        result.value++;
+
+                } else if (action == "remove") {
+                    if (result.value <= 1) {
+                        location.reload()
+                    } else if (!isNaN(result.value) && result.value > 0) {
+                        result.value--;
+                    }
+                } else if (action == "delete") {
+                    location.reload()
+
+                }
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Oops!',
+                    'Something went wrong',
+                    'error'
+                )
+            },
+
+        })
+    }
+
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+</script>
+{% endblock %}

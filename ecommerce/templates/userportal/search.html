@@ -1,0 +1,66 @@
+{% extends 'userportal/base.html' %} {% load static %} {% block head %}
+<!-- Site Title -->
+<title>Ecommerce</title>
+{% endblock %} {% block body_block %}
+<!-- start product Area -->
+<section class="section_gap">
+    <!-- single product slide -->
+    <div class="single-product-slider">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="section-title">
+                        <h1> </h1>
+                        <p> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% if products %} {% for item in products %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="single-product">
+                        <img class="img-fluid" src="{{ item.image.url }}" style="width:263px;height:280px;" alt="">
+                        <div class="product-details">
+                            <a href="{% url 'product_urls:single_product' item.id %}">
+                                <h6>{{ item.name }}</h6>
+                            </a>
+                            <div class="price">
+                                <h6>${{ item.price }}.00</h6>
+                                <h6 class="l-through">$210.00</h6>
+                            </div>
+                            <div class="prd-bottom">
+
+                                <a class="social-info">
+                                    <span class="ti-bag" onclick="AddToCart('{{ item.id }}')"></span>
+                                    <p class="hover-text">add to bag</p>
+                                </a>
+                                <a href="" class="social-info">
+                                    <span class="lnr lnr-heart"></span>
+                                    <p class="hover-text">Wishlist</p>
+                                </a>
+                                <a href="" class="social-info">
+                                    <span class="lnr lnr-sync"></span>
+                                    <p class="hover-text">compare</p>
+                                </a>
+                                <a href="" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                    <p class="hover-text">view more</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %} {% else %}
+                <div class="container">
+
+                    <h2 style="margin-bottom: 40px; margin-top: 40px;"> The search you are looking for: Not Exist </h2>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- end product Area -->
+
+{% endblock %} {% block scripts %} {% include 'userportal/ajax.html' %} {% endblock %}

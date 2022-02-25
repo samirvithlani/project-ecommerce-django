@@ -1,0 +1,63 @@
+{% extends 'adminportal/base.html' %} {% load static %} {% block head %}
+<title>Admin</title>
+{% endblock %} {% block body_block %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><a style="margin-left: 85%;" class="btn btn-outline-primary float-left" href="{% url 'user_urls:registration' %}" type="button">Add User</a> Customer Table</h4>
+
+                        <div class="table-responsive">
+                            {% for message in messages %}
+                            <div style="color:rgb(1, 9, 119);" class="alert alert-success alert-dismissible" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Number</th>
+                                        <th>Edit/Delete </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if user_data %} {% for prod in user_data %}
+                                    <tr>
+                                        <td><img src="{{ prod.profile_pic.url }}" alt=""></td>
+                                        <td>{{prod.username}}</td>
+                                        <td>{{prod.email}}</td>
+                                        <td>{{prod.phone_number}}</td>
+                                        <td>
+                                            <a href="{% url 'user_urls:user_update' prod.id %}" type="button" class="btn btn-warning" style="padding: 6px;">
+                                                <span class="mdi mdi-grease-pencil"></span>
+                                            </a>
+                                            <a style="padding: 5px;"> </a>
+                                            <a href="{% url 'user_urls:user_delete' prod.id %}" type="button" class="btn btn-danger" style="padding: 6px;">
+                                                <span class="mdi mdi-delete-empty"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %} {% else %}
+                                    <tr>
+                                        <td>
+                                            No Username Have Been Entered Yet..!!
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% block scripts %} {% endblock %}

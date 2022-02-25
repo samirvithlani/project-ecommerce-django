@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>This is mail template</title>
+</head>
+
+<body>
+    <h1>Thank you {{ user }} for shopping with us...!!!</h1>
+    <h3>Your order is listed below.</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cart in data %}
+            <tr>
+                <td>{{ cart.name }}</td>
+                <td>{{ cart.quantity }}</td>
+                <td>{{ cart.price }}</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td>Subtotal</td>
+                <td></td>
+                <td>{{ subtotal }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Tax (18%)</td>
+                <td></td>
+                <td>{{ tax }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td>{{ total }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

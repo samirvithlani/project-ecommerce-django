@@ -1,0 +1,27 @@
+{% extends 'adminportal/base.html' %} {% load static %} {% block head %}
+<title>Admin</title>
+{% endblock %} {% block body_block %}
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Delete User ??</h4>
+                        <form class="form-row" method="POST">
+                            {% csrf_token %} You Sure Want to Delete the User <br> Username: {{ delete_product.username }} <br> Email : {{ delete_product.email }}??
+                            <div class="mt-3">
+                                <input class="btn btn-danger" type="submit" value="Delete" />
+                                <a href="{% url 'user_urls:index' %}"><input class="btn btn-primary" type="button" name="Cancel" value="Cancel" /> </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- main-panel ends -->
+{% endblock %} {% block scripts %} {% endblock %}

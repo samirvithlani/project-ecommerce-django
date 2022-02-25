@@ -1,0 +1,76 @@
+{% extends 'adminportal/base.html' %} {% load crispy_forms_tags %} {% load static %} {% block head %}
+<title>Admin</title>
+{% endblock %} {% block body_block %}
+
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Category</h4>
+                        <form class="form-row" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %} {{ form | crispy }}
+                            <div class="mt-3">
+                                <input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" name="Register" value="Register">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Brand Table</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Category ID
+                                        </th>
+                                        <th>
+                                            Category Name
+                                        </th>
+                                        <th>
+                                            Category <br> Edit/Delete
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in category %}
+
+                                    <tr>
+                                        <td>
+                                            {{item.id}}
+                                        </td>
+                                        <td>
+                                            {{item.name}}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'product_urls:update_category' item.id %}" type="button" class="btn btn-warning" style="padding: 6px;">
+                                                <span class="mdi mdi-grease-pencil"></span>
+                                            </a>
+                                            <a style="padding: 5px;"> </a>
+                                            <a href="{% url 'product_urls:delete_category' item.id %}" type="button" class="btn btn-danger" style="padding: 6px;">
+                                                <span class="mdi mdi-delete-empty"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+</div>
+<!-- main-panel ends -->
+{% endblock %} {% block scripts %} {% endblock %}
